@@ -1345,6 +1345,7 @@
     linkToAllTypes.allTypesCol.longCol = 11;
     StringObject *obj = [[StringObject alloc] initWithValue:@[@"string"]];
     linkToAllTypes.allTypesCol.objectCol = obj;
+    linkToAllTypes.allTypesCol.realmIntCol = [[RLMInteger alloc] initWithValue:@0];
 
     [realm beginWriteTransaction];
     [realm addObject:linkToAllTypes];
@@ -2134,6 +2135,52 @@
 
     // People that have a parent under the age of 31 where that parent has a parent over the age of 35 whose name is Michael.
     XCTAssertEqualObjects(asArray(r14), (@[ hannah ]));
+}
+
+- (void)testRealmIntegerQueries {
+    RLMRealm *realm = [self realm];
+
+    [realm beginWriteTransaction];
+    [RealmIntObject createInRealm:realm withValue:@[@20]];
+    [RealmIntObject createInRealm:realm withValue:@[@25]];
+    [RealmIntObject createInRealm:realm withValue:@[@28]];
+    [realm commitWriteTransaction];
+
+    // query on realm
+    RLMAssertCount(RealmIntObject, 2U, @"realmInt > 21");
+
+    // query on realm with order
+    RLMResults *results = [[RealmIntObject objectsInRealm:realm where:@"realmInt > 21"] sortedResultsUsingKeyPath:@"realmInt" ascending:YES];
+    XCTAssertEqual([results[0] realmInt].value.integerValue, 25);
+    XCTAssertEqual([results[1] realmInt].value.integerValue, 28);
+
+    // query on sorted results
+    results = [[[RealmIntObject allObjectsInRealm:realm] sortedResultsUsingKeyPath:@"realmInt" ascending:YES] objectsWhere:@"realmInt > 21"];
+    XCTAssertEqual([results[0] realmInt].value.integerValue, 25);
+    XCTAssertEqual([results[1] realmInt].value.integerValue, 28);
+}
+
+- (void)testRealmNullableIntegerQueries {
+    RLMRealm *realm = [self realm];
+
+    [realm beginWriteTransaction];
+    [RealmNullableIntObject createInRealm:realm withValue:@[[NSNull null]]];
+    [RealmNullableIntObject createInRealm:realm withValue:@[@20]];
+    [RealmNullableIntObject createInRealm:realm withValue:@[@25]];
+    [RealmNullableIntObject createInRealm:realm withValue:@[@28]];
+    [realm commitWriteTransaction];
+    XCTAssertEqual([RealmNullableIntObject allObjectsInRealm:realm].count, 4U);
+
+    // query on realm
+    RLMAssertCount(RealmNullableIntObject, 1U, @"realmInt < 24");
+
+    // query on realm with order
+    RLMResults<RealmNullableIntObject *> *results = [[RealmNullableIntObject objectsInRealm:realm where:@"realmInt < 24"] sortedResultsUsingKeyPath:@"realmInt" ascending:YES];
+    XCTAssertEqual([results[0] realmInt].value.integerValue, 20);
+
+    // query on sorted results
+    results = [[[RealmNullableIntObject allObjectsInRealm:realm] sortedResultsUsingKeyPath:@"realmInt" ascending:YES] objectsWhere:@"realmInt < 24"];
+    XCTAssertEqual([results[0] realmInt].value.integerValue, 20);
 }
 
 @end
