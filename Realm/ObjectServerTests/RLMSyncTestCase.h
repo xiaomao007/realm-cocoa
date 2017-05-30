@@ -76,6 +76,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Synchronously create, log in, and return a user.
 - (RLMSyncUser *)logInUserForCredentials:(RLMSyncCredentials *)credentials
                                   server:(NSURL *)url;
+- (RLMSyncUser *)logInUserForCredentials:(RLMSyncCredentials *)credentials
+                                  server:(NSURL *)url
+                    simulateReconnection:(BOOL)simulateReconnection;
 
 - (RLMSyncUser *)makeAdminUser:(NSString *)userName password:(NSString *)password server:(NSURL *)url;
 
@@ -106,6 +109,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Wait for uploads to complete while spinning the runloop. This method uses expectations.
 - (void)waitForUploadsForUser:(RLMSyncUser *)user url:(NSURL *)url error:(NSError **)error;
+
+/// Simulate no network condition
+- (void)disableNetworking;
+/// Clear poor network simulation
+- (void)enableNetworkingAfter:(NSTimeInterval)secs;
 
 @end
 
