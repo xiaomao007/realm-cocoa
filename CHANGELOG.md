@@ -33,10 +33,14 @@ x.x.x Release notes (yyyy-MM-dd)
 * The return types of the `SyncError.clientResetInfo()` and
   `SyncError.deleteRealmUserInfo()` APIs have been changed. They now return
   `RLMSyncErrorActionToken`s or `SyncError.ActionToken`s instead of closures.
+* Swift `Object` comparison and hashing behavior now works the same way as
+  that of `RLMObject` (objects are now only considered equatable if their
+  model class defines a primary key).
 
 ### Enhancements
 
-* None.
+* Add Swift `Object.isSameObject(as:_)` API to perform the same function as
+  the existing Objective-C API `-[RLMObject isEqualToObject:]`.
 
 ### Bugfixes
 
