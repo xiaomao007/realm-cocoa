@@ -32,9 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Dynamically increment the value of an integer property.
 
- @warning: This property will throw an Objective-C exception if the property
-           cannot be incremented (for example, if it is a primary key, if it
-           is not an integer, or if its current value is null).
+ @warning This property will throw an Objective-C exception if the property
+          cannot be incremented (for example, if it is a primary key, if it
+          is not an integer, or if its current value is null).
  */
 - (void)incrementValueOfIntegerProperty:(NSString *)propertyName byValue:(NSInteger)delta;
 

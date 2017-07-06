@@ -529,8 +529,7 @@ typedef void (^RLMObjectChangeBlock)(BOOL deleted,
  need to check `invalidated` before accessing any of its properties.
 
  For Realm integer properties this will provide a `NSNumber` containing the old
- numeric value (or `NSNull` if appropriate), rather than a `RLMInteger` or
- `RLMNullableInteger` instance.
+ numeric value (or `NSNull` if appropriate), rather than a `RLMInteger` instance.
  */
 @property (nonatomic, readonly, strong, nullable) id previousValue;
 
@@ -539,8 +538,7 @@ typedef void (^RLMObjectChangeBlock)(BOOL deleted,
  for `RLMArray` properties.
 
  For Realm integer properties this will provide a `NSNumber` containing the new
- numeric value (or `NSNull` if appropriate), rather than a `RLMInteger` or
- `RLMNullableInteger` instance.
+ numeric value (or `NSNull` if appropriate), rather than a `RLMInteger` instance.
  */
 @property (nonatomic, readonly, strong, nullable) id value;
 @end

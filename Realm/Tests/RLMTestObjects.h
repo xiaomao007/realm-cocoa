@@ -155,7 +155,6 @@ RLM_ARRAY_TYPE(AllTypesObject)
 @property NSString *string;
 @property NSData *data;
 @property NSDate *date;
-// TODO: add RLMNullableInteger here?
 @end
 
 @interface AllOptionalTypesPK : RLMObject

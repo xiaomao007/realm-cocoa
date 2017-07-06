@@ -570,7 +570,7 @@ void RLMDynamicIntegerAdd(RLMObjectBase *obj, NSString *propName, NSInteger delt
     auto col = obj->_info->tableColumn(prop);
     auto table = obj->_row.get_table();
     if (table->is_null(col, obj->_row.get_index())) {
-        @throw RLMException(@"Cannot increment a nullable integer property whose value is nil. Set its value first.");
+        @throw RLMException(@"Cannot increment an integer property whose value is nil. Set its value first.");
     }
     table->add_int(col, obj->_row.get_index(), delta);
 }
