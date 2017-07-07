@@ -219,7 +219,7 @@ using namespace realm;
 
         if (prop) {
             [propArray addObject:prop];
-         }
+        }
     }
     free(props);
 
