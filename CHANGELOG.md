@@ -34,8 +34,8 @@ x.x.x Release notes (yyyy-MM-dd)
   `SyncError.deleteRealmUserInfo()` APIs have been changed. They now return
   `RLMSyncErrorActionToken`s or `SyncError.ActionToken`s instead of closures.
 * Rename `{RLM}NotificationToken.stop()` to `invalidate()` and
-  `RealmCollection.addNotificationBlock(_:)` to `observe(_:)` to mirror the new
-  KVO Swift APIs.
+  `{RealmCollection,SyncPermissionResults}.addNotificationBlock(_:)` to
+  `observe(_:)` to mirror Foundation's new KVO APIs.
 
 ### Enhancements
 
