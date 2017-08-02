@@ -413,6 +413,9 @@ public class ObjectUtil: NSObject {
     // If the property is a storage property for a lazy Swift property, return
     // the base property name (e.g. `foo.storage` becomes `foo`). Otherwise, nil.
     private static func baseName(forLazySwiftProperty name: String) -> String? {
+        // A Swift lazy var shows up as two separate children on the reflection tree:
+        // one named 'x', and another that is optional and is named 'x.storage'. Note
+        // that '.' is illegal in either a Swift or Objective-C property name.
         let storageSuffix = ".storage"
         if let storageRange = name.range(of: storageSuffix, options: [.anchored, .backwards]) {
             var baseName = name
@@ -452,6 +455,7 @@ public class ObjectUtil: NSObject {
     }
 
     // Build optional property metadata for a given property.
+    // swiftlint:disable:next cyclomatic_complexity
     private static func buildMetadata(for child: Mirror.Child, at index: Int) -> RLMGenericPropertyMetadata? {
         guard let name = child.label else {
             return nil
