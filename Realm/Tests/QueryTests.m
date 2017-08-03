@@ -899,8 +899,10 @@
     RLMAssertCount(StringObject, 0U, @"stringCol BEGINSWITH 'abd'");
     RLMAssertCount(StringObject, 0U, @"stringCol BEGINSWITH 'c'");
     RLMAssertCount(StringObject, 0U, @"stringCol BEGINSWITH 'A'");
+    RLMAssertCount(StringObject, 0U, @"stringCol BEGINSWITH ''");
     RLMAssertCount(StringObject, 1U, @"stringCol BEGINSWITH[c] 'a'");
     RLMAssertCount(StringObject, 1U, @"stringCol BEGINSWITH[c] 'A'");
+    RLMAssertCount(StringObject, 0U, @"stringCol BEGINSWITH[c] ''");
 
     RLMAssertCount(StringObject, 1U, @"stringCol BEGINSWITH 'u'");
     RLMAssertCount(StringObject, 1U, @"stringCol BEGINSWITH[c] 'U'");
@@ -915,8 +917,10 @@
     RLMAssertCount(AllTypesObject, 1U, @"objectCol.stringCol BEGINSWITH 'a'");
     RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol BEGINSWITH 'c'");
     RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol BEGINSWITH 'A'");
+    RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol BEGINSWITH ''");
     RLMAssertCount(AllTypesObject, 1U, @"objectCol.stringCol BEGINSWITH[c] 'a'");
     RLMAssertCount(AllTypesObject, 1U, @"objectCol.stringCol BEGINSWITH[c] 'A'");
+    RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol BEGINSWITH[c] ''");
 }
 
 - (void)testStringEndsWith
@@ -939,8 +943,10 @@
     RLMAssertCount(StringObject, 0U, @"stringCol ENDSWITH 'bbc'");
     RLMAssertCount(StringObject, 0U, @"stringCol ENDSWITH 'a'");
     RLMAssertCount(StringObject, 0U, @"stringCol ENDSWITH 'C'");
+    RLMAssertCount(StringObject, 0U, @"stringCol ENDSWITH ''");
     RLMAssertCount(StringObject, 1U, @"stringCol ENDSWITH[c] 'c'");
     RLMAssertCount(StringObject, 1U, @"stringCol ENDSWITH[c] 'C'");
+    RLMAssertCount(StringObject, 0U, @"stringCol ENDSWITH[c] ''");
 
     RLMAssertCount(StringObject, 1U, @"stringCol ENDSWITH 'u'");
     RLMAssertCount(StringObject, 1U, @"stringCol ENDSWITH[c] 'U'");
@@ -955,8 +961,10 @@
     RLMAssertCount(AllTypesObject, 1U, @"objectCol.stringCol ENDSWITH 'c'");
     RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol ENDSWITH 'a'");
     RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol ENDSWITH 'C'");
+    RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol ENDSWITH ''");
     RLMAssertCount(AllTypesObject, 1U, @"objectCol.stringCol ENDSWITH[c] 'c'");
     RLMAssertCount(AllTypesObject, 1U, @"objectCol.stringCol ENDSWITH[c] 'C'");
+    RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol ENDSWITH[c] ''");
 }
 
 - (void)testStringContains
@@ -980,10 +988,12 @@
     RLMAssertCount(StringObject, 0U, @"stringCol CONTAINS 'd'");
     RLMAssertCount(StringObject, 0U, @"stringCol CONTAINS 'aabc'");
     RLMAssertCount(StringObject, 0U, @"stringCol CONTAINS 'bbc'");
+    RLMAssertCount(StringObject, 0U, @"stringCol CONTAINS ''");
 
     RLMAssertCount(StringObject, 0U, @"stringCol CONTAINS 'C'");
     RLMAssertCount(StringObject, 1U, @"stringCol CONTAINS[c] 'c'");
     RLMAssertCount(StringObject, 1U, @"stringCol CONTAINS[c] 'C'");
+    RLMAssertCount(StringObject, 0U, @"stringCol CONTAINS[c] ''");
 
     RLMAssertCount(StringObject, 1U, @"stringCol CONTAINS 'u'");
     RLMAssertCount(StringObject, 1U, @"stringCol CONTAINS[c] 'U'");
@@ -998,8 +1008,10 @@
     RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol CONTAINS 'd'");
     RLMAssertCount(AllTypesObject, 1U, @"objectCol.stringCol CONTAINS 'c'");
     RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol CONTAINS 'C'");
+    RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol CONTAINS ''");
     RLMAssertCount(AllTypesObject, 1U, @"objectCol.stringCol CONTAINS[c] 'c'");
     RLMAssertCount(AllTypesObject, 1U, @"objectCol.stringCol CONTAINS[c] 'C'");
+    RLMAssertCount(AllTypesObject, 0U, @"objectCol.stringCol CONTAINS[c] ''");
 }
 
 - (void)testStringLike
@@ -2302,25 +2314,27 @@
         XCTAssertEqual(2U, nilStrings.count);
         XCTAssertEqual(2U, nonNilStrings.count);
 
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol BEGINSWITH ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol ENDSWITH ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol LIKE '*'"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS[c] ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol BEGINSWITH[c] ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol ENDSWITH[c] ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol LIKE[c] '*'"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol BEGINSWITH ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol ENDSWITH ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"],
+                              [[stringObjectClass objectsInRealm:realm where:@"stringCol LIKE '*'"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS[c] ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol BEGINSWITH[c] ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol ENDSWITH[c] ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"],
+                              [[stringObjectClass objectsInRealm:realm where:@"stringCol LIKE[c] '*'"] valueForKey:@"stringCol"]);
 
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS[d] ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol BEGINSWITH[d] ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol ENDSWITH[d] ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS[cd] ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol BEGINSWITH[cd] ''"] valueForKey:@"stringCol"]);
-        XCTAssertEqualObjects([nonNilStrings valueForKey:@"stringCol"], [[stringObjectClass objectsInRealm:realm where:@"stringCol ENDSWITH[cd] ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS[d] ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol BEGINSWITH[d] ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol ENDSWITH[d] ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS[cd] ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol BEGINSWITH[cd] ''"] valueForKey:@"stringCol"]);
+        XCTAssertEqualObjects(@[], [[stringObjectClass objectsInRealm:realm where:@"stringCol ENDSWITH[cd] ''"] valueForKey:@"stringCol"]);
 
         XCTAssertEqualObjects(@[], ([[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS %@", @"\0"] valueForKey:@"self"]));
-        XCTAssertEqualObjects([[stringObjectClass allObjectsInRealm:realm] valueForKey:@"stringCol"], ([[StringObject objectsInRealm:realm where:@"stringCol CONTAINS NULL"] valueForKey:@"stringCol"]));
-        XCTAssertEqualObjects([[stringObjectClass allObjectsInRealm:realm] valueForKey:@"stringCol"], ([[StringObject objectsInRealm:realm where:@"stringCol CONTAINS[d] NULL"] valueForKey:@"stringCol"]));
+        XCTAssertEqualObjects(@[], ([[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS NULL"] valueForKey:@"stringCol"]));
+        XCTAssertEqualObjects(@[], ([[stringObjectClass objectsInRealm:realm where:@"stringCol CONTAINS[d] NULL"] valueForKey:@"stringCol"]));
     };
     testWithStringClass([StringObject class]);
     testWithStringClass([IndexedStringObject class]);
@@ -2501,9 +2515,9 @@ struct NullTestData {
             RLMAssertOperator(>=, 1U, 0U, 0U);
         }
         if (d.substringOperations) {
-            RLMAssertOperator(BEGINSWITH, 1U, 0U, 1U);
-            RLMAssertOperator(ENDSWITH, 1U, 0U, 1U);
-            RLMAssertOperator(CONTAINS, 1U, 0U, 1U);
+            RLMAssertOperator(BEGINSWITH, 0U, 0U, 0U);
+            RLMAssertOperator(ENDSWITH, 0U, 0U, 0U);
+            RLMAssertOperator(CONTAINS, 0U, 0U, 0U);
         }
     }
 
@@ -2529,9 +2543,9 @@ struct NullTestData {
             RLMAssertOperator(>=, 0U, 0U, 1U);
         }
         if (d.substringOperations) {
-            RLMAssertOperator(BEGINSWITH, 0U, 0U, 1U);
-            RLMAssertOperator(ENDSWITH, 0U, 0U, 1U);
-            RLMAssertOperator(CONTAINS, 0U, 0U, 1U);
+            RLMAssertOperator(BEGINSWITH, 0U, 0U, 0U);
+            RLMAssertOperator(ENDSWITH, 0U, 0U, 0U);
+            RLMAssertOperator(CONTAINS, 0U, 0U, 0U);
         }
     }
 }
